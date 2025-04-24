@@ -6,51 +6,22 @@ package com.robinzon.buscarsunat.repositorio;
 
 import com.robinzon.buscarsunat.factory.ConexionOracle;
 import com.robinzon.buscarsunat.util.Utilidades;
-import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Matteo
  */
-public class EmpresaRepo {
-  public boolean buscar(String cia, String id) {
-      boolean valor = false;
+public class PersonaRepo {
+    private boolean retorno = false;
 
-      try {
-         String query = "SELECT NO_CIA,NO_CLIENTE,NOMBRE FROM CXC.ARCCMC WHERE NO_CIA = ? AND NO_CLIENTE = ? ";
-         //FileFactory ff = new FileFactory();
-         Connection conexion = ConexionOracle.conectar( Utilidades.getValoresConexion() );
-         PreparedStatement sentencia = conexion.prepareStatement(query);
-         sentencia.setString(1, cia);
-         sentencia.setString(2, id);
-         ResultSet rs = sentencia.executeQuery();
-         if (rs.next()) {
-            valor = true;
-           // JOptionPane.showMessageDialog((Component)null, "El cliente se encuentra registrado en el sistema : " + id + " - " + rs.getString("NOMBRE"));
-         }
-      } catch (SQLException var9) {
-         System.out.println("Error de consulta si existe el cliente : " + var9.getMessage());
-         JOptionPane.showMessageDialog((Component)null, "Error al consultar por el código del cliente. El mensaje de error es : " + var9.getMessage(), "ERROR", 0);
-      }
-
-      return valor;
-   }
-  
-     public boolean guardarRuc(String cia, String noCliente, String tipoPersona, String tipoDocumento, 
-                               String nuDocumento, String ruc, String nombre,
-                               String direccion, String ubigeo,
-                               String depa, String prov, String dist) {
-      boolean retorno = false;
+   public boolean crearPersona(String cia, String noCliente, String tipoPersona, String tipoDocumento, String nuDocumento, String ruc, String nombre, String direccion, String ubigeo, String depa, String prov, String dist) {
       String query = "INSERT INTO CXC.ARCCMC(NO_CIA,NO_CLIENTE,ACTIVO,TIPO_PERSONA,EXTRANJERO,TIPO_DOCUMENTO,NU_DOCUMENTO,RUC,NOMBRE,DIRECCION,UBIGEO,CODI_DEPA,CODI_PROV,CODI_DIST,CLASE,COD_PAIS,COD_VEN_COB,TIPO_FPAGO,COD_FPAGO,TIPO_CLIENTE,GRUPO,MONEDA,LIMITE_CREDI_N,EXCENTO_IMP,USUARIO,IND_VAL,IND_TIENDAS,COD_CLASIF,COD_CATEG,IND_AGEN_RET,IND_BUEN_CON,IND_SIST_DEFR,COD_CALI,IND_RENOVACION,ORIGEN,IND_PROVE,TIPO_ENTI,COD_SUC,STATUS,CHEQUE_DIFERIDO) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       String query2 = "INSERT INTO CXC.ARCCTDA(NO_CIA,NO_CLIENTE,COD_TIENDA,NOMBRE,DIRECCION,CODI_DEPA,CODI_PROV,CODI_DIST,TIPO_DIR,ACTIVO,COD_SUC,ESTAB_SUNAT) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
       try {
-         
          Connection conexion = ConexionOracle.conectar( Utilidades.getValoresConexion() );
          PreparedStatement stmt = conexion.prepareStatement(query);
          stmt.setString(1, cia);
@@ -62,7 +33,7 @@ public class EmpresaRepo {
          stmt.setString(7, nuDocumento);
          stmt.setString(8, ruc);
          stmt.setString(9, nombre);
-         stmt.setString(10, "-");
+         stmt.setString(10, direccion);
          stmt.setString(11, ubigeo);
          stmt.setString(12, depa);
          stmt.setString(13, prov);
@@ -94,9 +65,8 @@ public class EmpresaRepo {
          stmt.setString(39, "1");
          stmt.setString(40, "N");
          int p = stmt.executeUpdate();
-         System.out.println("Estado de creación de empresa = " + p);
+ 
          stmt.close();
-         
          PreparedStatement stmt2 = conexion.prepareStatement(query2);
          stmt2.setString(1, cia);
          stmt2.setString(2, noCliente);
@@ -111,16 +81,13 @@ public class EmpresaRepo {
          stmt2.setString(11, "001");
          stmt2.setString(12, "0000");
          int p2 = stmt2.executeUpdate();
-         System.out.println("Estado de creación de direccón empresa = " + p2);
+         System.out.println("Estado de creación de direccón persona = " + p2);
          stmt2.close();
-         retorno = true;
-      } catch (SQLException var22) {
-         System.out.println("Error : " + var22.getMessage());
-         JOptionPane.showMessageDialog((Component)null, "Error al consultar por el código del cliente. El mensaje de error es : " + var22.getMessage(), "ERROR", 0);
+         this.retorno = true;
+      } catch (SQLException var21) {
+         System.out.println("Error de consulta si existe el cliente : " + var21.getMessage());        
       }
 
-      return retorno;
+      return this.retorno;
    }
-  
-  
 }

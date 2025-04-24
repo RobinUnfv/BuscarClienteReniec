@@ -55,11 +55,6 @@ public class jdEspera extends javax.swing.JDialog {
                 SwingUtilities.invokeLater(() -> {
                     if(objEmpresa != null) {
                         dashboard.mostrarResultado(tipoDocu, objEmpresa, null);
-                    } else {
-                        JOptionPane.showMessageDialog(this, 
-                            "No se encontraron resultados", 
-                            "Información", 
-                            JOptionPane.INFORMATION_MESSAGE);
                     }
                     this.dispose(); // Cerrar el diálogo
                 });
@@ -70,11 +65,6 @@ public class jdEspera extends javax.swing.JDialog {
                 SwingUtilities.invokeLater(() -> {
                     if(objPersona != null) {
                         dashboard.mostrarResultado(tipoDocu, null, objPersona);
-                    } else {
-                        JOptionPane.showMessageDialog(this, 
-                            "No se encontraron resultados", 
-                            "Información", 
-                            JOptionPane.INFORMATION_MESSAGE);
                     }
                     this.dispose(); // Cerrar el diálogo
                 });

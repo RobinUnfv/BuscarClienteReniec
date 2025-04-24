@@ -29,8 +29,11 @@ public class SunatController {
          conn.setRequestMethod("GET");
          conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
          if (conn.getResponseCode() != 200) {
-            System.out.println(".:. ENTRO AL ERROR RUC .:.");
-            JOptionPane.showMessageDialog((Component)null, "RUC invalido", "ERROR", 2);
+            String mensaje ="N° "+ruc+" de RUC invalido.";
+            JOptionPane.showMessageDialog(null,
+                                    mensaje, 
+                                    "Éxito", 
+                                    JOptionPane.INFORMATION_MESSAGE);
          } else {
             InputStreamReader in = new InputStreamReader(conn.getInputStream(), "UTF-8");
             BufferedReader br = new BufferedReader(in);
@@ -54,8 +57,11 @@ public class SunatController {
          conn.setRequestMethod("GET");
          conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
          if (conn.getResponseCode() != 200) {
-            System.out.println(".::.ENTRO AL ERROR DNI.::.");
-            JOptionPane.showMessageDialog((Component)null, "DNI invalido", "ERROR", 2);
+            String mensaje = "N° "+dni+" de DNI invalido.";
+            JOptionPane.showMessageDialog(null,
+                                    mensaje, 
+                                    "Éxito", 
+                                    JOptionPane.INFORMATION_MESSAGE);
          } else {
             InputStreamReader in = new InputStreamReader(conn.getInputStream(), "UTF-8");
             BufferedReader br = new BufferedReader(in);
