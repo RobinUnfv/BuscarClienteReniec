@@ -5,6 +5,11 @@
 package com.robinzon.buscarsunat;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.robinzon.buscarsunat.modelo.Empresa;
+import com.robinzon.buscarsunat.modelo.Persona;
+import com.robinzon.buscarsunat.repositorio.EmpresaRepo;
+import com.robinzon.buscarsunat.vista.jdEspera;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -12,7 +17,8 @@ import javax.swing.UIManager;
  * @author Matteo
  */
 public class Dashboard extends javax.swing.JFrame {
-
+    private boolean stsBotonBuscar;
+    //private jdEspera espera;
     /**
      * Creates new form Dashboard
      */
@@ -22,6 +28,7 @@ public class Dashboard extends javax.swing.JFrame {
         this.cambiarPlaceholderNumDocu();
         this.cambiarPlaceholderResultado();
         this.btnBuscar.setEnabled(false);
+        this.limpiarResultado();
     }
     
     private void iniciarEstilos() {
@@ -43,6 +50,7 @@ public class Dashboard extends javax.swing.JFrame {
         lblNombre.setText("Apellidos y Nombre(s)");
         txtNombre.putClientProperty("JTextField.placeholderText", "Apellidos y Nombre(s)");
       }
+      btnRegistrar.setEnabled(false);
     }
     
     private void cambiarPlaceholderResultado() {
@@ -54,6 +62,33 @@ public class Dashboard extends javax.swing.JFrame {
       txtUbigeo.putClientProperty("JTextField.placeholderText", "Ubigeo");
       lblNumDocu.setText("N° RUC");
       lblNombre.setText("Razón Social");
+      
+      txtNumDocu.setEditable(false);
+      txtCondicion.setEditable(false);
+      txtNombre.setEditable(false);
+      txtDireccion.setEditable(false);
+      txtDepartamento.setEditable(false);
+      txtProvincia.setEditable(false);
+      txtDistrito.setEditable(false);
+      txtUbigeo.setEditable(false);
+    }
+    
+    public void mostrarResultado(String tipoDocu, Empresa objEmpresa, Persona objPersona ) {
+        this.limpiarResultado();
+        if(tipoDocu.equalsIgnoreCase("RUC")) {
+            txtNumDocu.setText(objEmpresa.getNumeroDocumento());
+            txtCondicion.setText(objEmpresa.getCondicion());
+            txtNombre.setText(objEmpresa.getNombre());
+            txtDireccion.setText(objEmpresa.getDireccion());
+            txtDepartamento.setText(objEmpresa.getDepartamento());
+            txtProvincia.setText(objEmpresa.getProvincia());
+            txtDistrito.setText(objEmpresa.getDistrito());
+            txtUbigeo.setText(objEmpresa.getUbigeo());
+        } else {
+           txtNumDocu.setText(objPersona.getNumeroDocumento());
+           txtNombre.setText(objPersona.getNombre());
+        }
+        
     }
     
 
@@ -90,13 +125,13 @@ public class Dashboard extends javax.swing.JFrame {
         lblDepartamento = new javax.swing.JLabel();
         lblUbigeo = new javax.swing.JLabel();
         jpRegistrar = new javax.swing.JPanel();
-        btnRegistrar1 = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
 
         jRadioButton1.setText("jRadioButton1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DATOS DE RENIEC");
+        setTitle("Consultando RENIEC");
 
         background.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -110,6 +145,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        txtNumeroDocumento.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNumeroDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNumeroDocumentoKeyReleased(evt);
@@ -123,6 +159,9 @@ public class Dashboard extends javax.swing.JFrame {
         btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnBuscarMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBuscarMouseEntered(evt);
             }
         });
 
@@ -152,6 +191,10 @@ public class Dashboard extends javax.swing.JFrame {
 
         jpResultado.setBackground(new java.awt.Color(255, 255, 255));
         jpResultado.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(102, 102, 102))); // NOI18N
+
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+
+        txtDireccion.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
         lblCondicion.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         lblCondicion.setText("Condición");
@@ -266,13 +309,13 @@ public class Dashboard extends javax.swing.JFrame {
         jpRegistrar.setBackground(new java.awt.Color(255, 255, 255));
         jpRegistrar.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(204, 204, 204)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(102, 102, 102))); // NOI18N
 
-        btnRegistrar1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnRegistrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/guardar-el-archivo.png"))); // NOI18N
-        btnRegistrar1.setText("1. REGISTRAR");
-        btnRegistrar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRegistrar1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegistrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/guardar-el-archivo.png"))); // NOI18N
+        btnRegistrar.setText("1. REGISTRAR");
+        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegistrar1MouseClicked(evt);
+                btnRegistrarMouseClicked(evt);
             }
         });
 
@@ -297,7 +340,7 @@ public class Dashboard extends javax.swing.JFrame {
             jpRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpRegistrarLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnRegistrar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -307,7 +350,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jpRegistrarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpRegistrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegistrar1, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                     .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -355,19 +398,57 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.cambiarPlaceholderNumDocu();
         this.txtNumeroDocumento.requestFocus();
+        this.limpiarResultado();
     }//GEN-LAST:event_cbxTipoDocumentoItemStateChanged
 
     private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
         // TODO add your handling code here:
-        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        //this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+       /* JOptionPane.showMessageDialog(null, 
+                                    "EVENTO CLICK", 
+                                    "Éxito", 
+                                    JOptionPane.INFORMATION_MESSAGE); */
+        if (stsBotonBuscar) {
+            this.limpiarResultado();
+            String tipoDocu = (String) this.cbxTipoDocumento.getSelectedItem();
+            String numDocu = txtNumeroDocumento.getText();
+            EmpresaRepo objRepo = new EmpresaRepo();
+            boolean stsExisteCliente = objRepo.buscar("01", numDocu.trim());
+            
+            if (stsExisteCliente) {
+                String mensaje = "El "+tipoDocu+" "+numDocu+" se encuentra registrado.";
+                JOptionPane.showMessageDialog(null,
+                                    mensaje, 
+                                    "Éxito", 
+                                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+              jdEspera espera = new jdEspera(this, true, tipoDocu, numDocu);
+              espera.setVisible(stsBotonBuscar);
+              
+            }
+            
+ 
+        }
     }//GEN-LAST:event_btnBuscarMouseClicked
-
-    private void btnRegistrar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrar1MouseClicked
+    
+    private void limpiarResultado() {
+      txtNumDocu.setText("");
+      txtCondicion.setText("");
+      txtNombre.setText("");
+      txtDireccion.setText("");
+      txtDepartamento.setText("");
+      txtProvincia.setText("");
+      txtDistrito.setText("");
+      txtUbigeo.setText("");
+    }
+    
+    private void btnRegistrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegistrar1MouseClicked
+    }//GEN-LAST:event_btnRegistrarMouseClicked
 
     private void btnSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseClicked
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_btnSalirMouseClicked
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -387,16 +468,20 @@ public class Dashboard extends javax.swing.JFrame {
         }
         
         String tipoDocu = (String) this.cbxTipoDocumento.getSelectedItem();
-        boolean stsBotonBuscar;
+        
         if (tipoDocu.equalsIgnoreCase("RUC")) {
             stsBotonBuscar = (this.txtNumeroDocumento.getText().length() == 11);
-            this.btnBuscar.setEnabled(stsBotonBuscar);
         } else {
             stsBotonBuscar = (this.txtNumeroDocumento.getText().length() == 8);
-            this.btnBuscar.setEnabled(stsBotonBuscar);
         }
+        this.btnBuscar.setEnabled(stsBotonBuscar);
         
     }//GEN-LAST:event_txtNumeroDocumentoKeyReleased
+
+    private void btnBuscarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseEntered
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_btnBuscarMouseEntered
 
     /**
      * @param args the command line arguments
@@ -436,7 +521,7 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnRegistrar1;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cbxTipoDocumento;
     private javax.swing.JRadioButton jRadioButton1;
